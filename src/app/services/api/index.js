@@ -1,13 +1,27 @@
-import axios from 'axios';
-// import AuthService from './auth';
-Vue.axios = axios;
+import VueResource from 'vue-resource';
+Vue.use(VueResource);
 
-let API_BASE = '';
+// import AuthApi from './auth';
+
+let API_BASE;
 let protocol = (document.location && document.location.protocol) || 'http:';
-Vue.axios.defaults.baseURL = API_BASE;
-// Vue.axios.defaults.headers.common['Authorization'] = 'Bearer '+auth_token
 
+switch (process.env.url) {
+  case 'loc':
+    API_BASE = `${protocol}//127.0.0.1:4321`;
+    break;
+  case 'dev':
+    API_BASE = `${protocol}//dev.api`;
+    break;
+  default:
+    API_BASE = `${protocol}//prod.api`;
+    break;
+}
+
+Vue.http.options = {
+  root: API_BASE
+};
 
 export {
-    // AuthService,
+  // AuthApi,
 };
