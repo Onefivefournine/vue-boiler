@@ -63,7 +63,7 @@ while true; do
 		    continue
 		else
 			upName="$(echo "${name:0:1}" | tr '[a-z]' '[A-Z]')""${name:1}"
-			echo upName
+			echo $upName
 			break
 		fi	   
 done
@@ -81,14 +81,15 @@ ask "Need api service?(N): " "N" 'Defaults to no service, continuing'
 SERVICE=$?
 
 echo "Building module..."
+mkdir $path/$name
 
 if [ $EXTERNAL_HTML = 1 ]; then
-	EXT_TMP="<script>
-import template from './index.html';
-"
+	EXT_TMP='<template src="./index.html"></template>
+	<script>
+'
 
 	if [ $SERVICE = 1 ]; then
-		EXT_TMP+="import {"$upName"Service} from '@services/api';"
+		EXT_TMP+="import {"$upName"Api} from '@services/api';"
 	fi
 
 	EXT_TMP+="
@@ -103,8 +104,7 @@ export default Vue.extend( {
     },
     methods: {
 
-    },
-    template
+    }
 } );
 </script>" 
 else
@@ -114,7 +114,7 @@ else
 <script>
 "
 	if [ $SERVICE = 1 ]; then
-			VUE_TMP+="import {"$upName"Service} from '@services/api';"
+			VUE_TMP+="import {"$upName"Api} from '@services/api';"
 	fi
 VUE_TMP+="
 export default Vue.extend( {
@@ -134,6 +134,7 @@ export default Vue.extend( {
 fi
 
 if [ $CRUD = 1 ]; then
+
 	if [ -n "$EXT_TMP" ] && [ "$EXT_TMP" != "" ]; then
 		makeFiles $path/$name/create "$EXT_TMP"
 		makeFiles $path/$name/update "$EXT_TMP"
@@ -158,12 +159,12 @@ else
 fi
 
 if [ $SERVICE = 1 ]; then
-	echo "import { _r, _e, genRes } from './utils';
+	echo "import { _r, genRes } from './_utils';
 
 const "$name"Res = genRes('"$name"', ['GET','POST','PUT','DELETE']);
 
 export default {
-    getList:(params)=>genRes().get(params).then(_r).catch(_e),
+    getList:(params)=>"$name"Res().get(params).then(_r),
 };
 " > 'src/app/services/api/'$name'.js'
 fi
@@ -172,7 +173,7 @@ if [ $ROUTE = 1 ]; then
 	if [ $CRUD = 1 ]; then
 		echo "import List from '@modules/"$name"/list';
 import Create from '@modules/"$name"/create';
-import Update from '@modules/"$name"/create';
+import Update from '@modules/"$name"/update';
 
 import { abstract, _crud_ } from './_utils';
 
@@ -180,7 +181,7 @@ export default {
     path: '"$name"',
     name: '"$name"',
     component: abstract,
-    redirect: 'cabinet/"$name"/list',
+    redirect: '/cabinet/"$name"/list',
     children: _crud_(
         List,
         Create,
@@ -192,7 +193,7 @@ export default {
                 [{ href: { name: '"$name":list' }, title: '' }, 'Изменить '],
             ]
         }),
-}" > "src/routes/"$name".js"
+}" > "src/app/routes/"$name".js"
 	else
 		echo "/*
 {
@@ -200,7 +201,7 @@ export default {
     name: '"$name"',
     component: "$upName",
 }
-*/" >> "src/routes/index.js"
+*/" >> "src/app/routes/index.js"
 	fi
 fi
 
@@ -209,6 +210,6 @@ echo 'Created module '$name' at '$path
 echo 'External template: '$EXTERNAL_HTML
 echo 'CRUD: '$CRUD
 echo 'Route: '$ROUTE
-echo 'Service: '$SERVICE
+echo 'ApiService: '$SERVICE
 
 exit

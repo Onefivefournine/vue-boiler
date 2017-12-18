@@ -2,8 +2,6 @@
   <div></div>
 </template>
 <script>
-import template from './index.html';
-
 export default Vue.extend( {
   data() {
     return {
@@ -18,7 +16,6 @@ export default Vue.extend( {
   },
   methods: {
 
-  },
-  template
+  }
 } );
 </script>
