@@ -13,7 +13,8 @@ const babel = require('./webpack/babel');
 const media = require('./webpack/media');
 const uglifyJS = require('./webpack/js.uglify');
 const images = require('./webpack/images');
-// const BundleAnalyzerPlugin = require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
+// const BundleAnalyzerPlugin =
+// require('webpack-bundle-analyzer').BundleAnalyzerPlugin;
 
 const PATHS = {
     source: path.resolve(__dirname, 'src'),
@@ -21,18 +22,22 @@ const PATHS = {
     root: path.resolve(__dirname)
 };
 
-const common = function(env) {
-    return merge([{
+const common = function (env) {
+    return merge([
+        {
             entry: {
-                'bundle': PATHS.source + '/app/main.js',
+                'bundle': PATHS.source + '/app/main.js'
             },
+            mode: env.NODE_ENV,
             output: {
                 path: PATHS.build,
                 publicPath: '/',
                 filename: '[name].[hash].js'
             },
             resolve: {
-                extensions: ['.js', '.vue'],
+                extensions: [
+                    '.js', '.vue'
+                ],
                 modules: ['node_modules'],
                 alias: {
                     '@assets': path.resolve(PATHS.source, 'assets'),
@@ -49,11 +54,13 @@ const common = function(env) {
             },
             plugins: [
                 // new BundleAnalyzerPlugin({ analyzerPort: 5541 }),
-                new webpack.optimize.ModuleConcatenationPlugin(),
+                new webpack
+                    .optimize
+                    .ModuleConcatenationPlugin(),
                 new HtmlWebpackPlugin({
                     inject: 'body',
                     template: PATHS.source + '/app/index.html',
-                    // favicon: PATHS.source + '/assets/gb_fav.ico',
+                    // favicon: PATHS.source + '/assets/fav.ico',
                     minify: {
                         caseSensitive: true,
                         collapseWhitespace: true
@@ -66,36 +73,29 @@ const common = function(env) {
                     }
                 }),
                 new webpack.ProvidePlugin({
-                    Vue: ['vue/dist/vue.esm.js', 'default'], // WARNING!!! DO NOT DELETE, Vue needs to be imported in almost every component/module
+                    Vue: [
+                        'vue/dist/vue.esm.js', 'default'
+                    ], // WARNING!!! DO NOT DELETE, Vue needs to be imported in almost every component/module
                     swal: 'sweetalert2',
                     fecha: 'fecha'
                 }),
-                new CleanWebpackPlugin(['build']),
+                new CleanWebpackPlugin(['build'])
             ]
         },
         images(),
         fonts(),
         html(),
         babel(),
-        media(),
+        media()
     ]);
 }
 
-module.exports = function(env) {
+module.exports = function (env) {
     console.log(env)
     if (env.NODE_ENV === 'production') {
-        return merge([
-            common(env),
-            extractCSS(),
-            uglifyJS()
-        ]);
+        return merge([common(env), extractCSS(), uglifyJS()]);
     }
     if (env.NODE_ENV === 'development') {
-        return merge([
-            common(env),
-            devserver(PATHS),
-            sass(),
-            css()
-        ])
+        return merge([common(env), devserver(PATHS), sass(), css()])
     }
 };

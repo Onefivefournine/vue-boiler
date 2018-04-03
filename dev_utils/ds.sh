@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/bash
 
 if [ $# -eq 0 ]; then
 	echo 'No params specified'
@@ -33,9 +33,23 @@ if [ $# -eq 0 ]; then
 	    esac
 	done	
 else
-	echo "Run default setting - just start ds on local backend"
-	OPEN=''
-	API='--env.url loc'
+	if [ $1 = 'l']; then
+		echo "Run dev-server on loc url"
+		OPEN=''
+		API='--env.url loc'
+	elif [ $1 = 'd' ]; then
+		echo "Run dev-server on dev url"
+		OPEN=''
+		API='--env.url dev'
+	elif [ $1 = 'p' ]; then
+		echo "Run dev-server on prod url"
+		OPEN=''
+		API=''
+	else
+		echo 'Run default setting - just start ds on local backend'
+		OPEN=''
+		API='--env.url loc'
+	fi
 fi
 
 yarn start_ds $OPEN $API

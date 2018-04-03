@@ -1,8 +1,11 @@
 export function genRes(commonUrl, methodArr) {
-    if (!(methodArr instanceof Array)) throw new TypeError('Methods must be in Array');
+    if (!(methodArr instanceof Array)) 
+        throw new TypeError('Methods must be in Array');
     let mObj = {};
     methodArr.forEach((method) => {
-        mObj[method.toLowerCase()] = { method }
+        mObj[method.toLowerCase()] = {
+            method
+        }
     })
 
     return (addUrl, check) => {
@@ -10,7 +13,9 @@ export function genRes(commonUrl, methodArr) {
         if (!addUrl) {
             url = commonUrl;
         } else if (addUrl && typeof addUrl === 'string') {
-            url = commonUrl + (check ? '' : '/') + addUrl;
+            url = commonUrl + (check
+                ? ''
+                : '/') + addUrl;
         } else {
             url = commonUrl + addUrl.reduce((el) => '/' + el);
         }
@@ -18,5 +23,7 @@ export function genRes(commonUrl, methodArr) {
     }
 }
 export function _r(r) {
-    return new Vue.Promise((resolve) => { resolve(r.data) })
+    return new Vue
+        .Promise
+        .resolve(r.data);
 }
