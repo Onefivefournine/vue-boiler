@@ -33,7 +33,7 @@ if [ $# -eq 0 ]; then
 	    esac
 	done	
 else
-	if [ $1 = 'l']; then
+	if [ $1 = 'l' ]; then
 		echo "Run dev-server on loc url"
 		OPEN=''
 		API='--env.url loc'
