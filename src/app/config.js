@@ -1,4 +1,4 @@
-swal.setDefaults({cancelButtonText: 'Отмена', confirmButtonClass: 'mx-3 btn btn-lg btn-success float-right', cancelButtonClass: 'mx-3 btn btn-lg btn-danger float-left', buttonsStyling: false, reverseButtons: true});
+swal.setDefaults({ cancelButtonText: 'Отмена', confirmButtonClass: 'mx-3 btn btn-lg btn-success float-right', cancelButtonClass: 'mx-3 btn btn-lg btn-danger float-left', buttonsStyling: false, reverseButtons: true });
 
 fecha.i18n = {
     dayNamesShort: [
@@ -51,9 +51,7 @@ fecha.i18n = {
         'am', 'pm'
     ],
     // D is the day of the month, function returns something like...  3rd or 11th
-    DoFn: function (D) {
-        return D + ['ое', 'ое', 'ое', 'е'][D % 10 > 3
-                ? 0
-                : (D - D % 10 !== 10) * D % 10];
+    DoFn: function(D) {
+        return D + ['ое', 'ое', 'ое', 'е'][D % 10 > 3 ? 0 : (D - D % 10 !== 10) * D % 10];
     }
-}
+};

@@ -1,8 +1,32 @@
 {
-    "extends": "google",
+    "env": {
+        "browser": true,
+        "es6": true
+    },
+    "extends": "eslint:recommended",
+    "parserOptions": {
+        "sourceType": "module"
+    },
+    "globals": {
+        "fecha": true,
+        "Vue": true,
+        "swal": true
+    },
     "rules": {
+        "indent": [
+            "error",
+            4
+        ],
+        "linebreak-style": [
+            "error",
+            "unix"
+        ],
+        "quotes": [
+            "error",
+            "single"
+        ],
         "semi": [
-            "warn",
+            "error",
             "always"
         ]
     }

@@ -22,7 +22,7 @@ const PATHS = {
     root: path.resolve(__dirname)
 };
 
-const common = function (env) {
+const common = function(env) {
     return merge([
         {
             entry: {
@@ -90,8 +90,7 @@ const common = function (env) {
     ]);
 }
 
-module.exports = function (env) {
-    console.log(env)
+module.exports = function(env) {
     if (env.NODE_ENV === 'production') {
         return merge([common(env), extractCSS(), uglifyJS()]);
     }

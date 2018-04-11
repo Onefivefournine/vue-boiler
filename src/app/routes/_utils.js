@@ -1,5 +1,5 @@
 export const abstract = {
-    template: `<router-view></router-view>`,
+    template: '<router-view></router-view>',
 };
 
 export function _crud_(listComp, createComp, updateComp, namespace = '', hasShow) {

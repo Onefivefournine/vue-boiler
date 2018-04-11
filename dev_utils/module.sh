@@ -41,10 +41,10 @@ while true; do
 	    read -e -p "Specify a path for a module(src/app/modules): " path
 	    if [ "$path" = "" ]; then
 		    path="src/app/modules"
-		    echo 'Defaults to '$path', continuing'
+		    echo 'Defaults to '$path', continue'
 		    break
 		elif [ -d  $path ]; then
-		    echo 'The directory '$path' exists! continuing'
+		    echo 'The directory '$path' exists! continue'
 		    break
 		else
 			ask "The directory $path does not exist! Create directory?(Y) " "Y" "Created new dir at $path"
@@ -68,16 +68,16 @@ while true; do
 		fi	   
 done
 
-ask "External template?(Y): " "Y" 'Defaults to external template, continuing' 
+ask "External template?(Y): " "Y" 'Defaults to external template, continue' 
 EXTERNAL_HTML=$?
 
-ask "CRUD?(N): " "N" 'Defaults to single(not CRUD), continuing'
+ask "CRUD?(N): " "N" 'Defaults to single(not CRUD), continue'
 CRUD=$?
 
-ask "Need route?(N): " "N" 'Defaults to no route, continuing'
+ask "Need route?(N): " "N" 'Defaults to no route, continue'
 ROUTE=$?
 
-ask "Need api service?(N): " "N" 'Defaults to no service, continuing'
+ask "Need api service?(N): " "N" 'Defaults to no service, continue'
 SERVICE=$?
 
 echo "Building module..."
@@ -185,14 +185,9 @@ export default {
     children: _crud_(
         List,
         Create,
-        Update, {
-            namespace: '"$name":',
-            crumbs: [
-                null,
-                [{ href: { name: '"$name":list' }, title: '' }, 'Создать '],
-                [{ href: { name: '"$name":list' }, title: '' }, 'Изменить '],
-            ]
-        }),
+        Update,
+		"$name"
+        ),
 }" > "src/app/routes/"$name".js"
 	else
 		echo "/*

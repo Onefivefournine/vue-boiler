@@ -1,6 +1,7 @@
 node_modules
 .DS_STORE
-yarn-error.log
-npm-debug.log
+*.log
 *.sublime-project
 *.sublime-workspace
+.vscode
+.idea

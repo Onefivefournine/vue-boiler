@@ -15,12 +15,12 @@ const routes = [
         //         name: 'profile',
         //         component: Profile
         // },
-    ],
-}, {
+        ],
+    }, {
         path: '*',
         redirect: '/',
         name: '404'
-}];
+    }];
 
 import VueRouter from 'vue-router';
 Vue.use(VueRouter);
